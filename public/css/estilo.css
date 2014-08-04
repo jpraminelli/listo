@@ -194,3 +194,7 @@ h6, .h6 {
     font-size: 24px;
     margin-bottom: -2px;
 }
+.divLogo{
+    float: left; position: absolute;
+}
+.divLogo span {position: relative;top: 0px;left: -15px;}
