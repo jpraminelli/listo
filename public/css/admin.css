@@ -1,0 +1,55 @@
+h1 {margin-bottom: .5em;}
+label.required {font-weight: bolder;}
+
+div.subform {
+    background: #fafafa;
+    border: dashed 1px #ddd;
+    padding: 18px 18px 0 18px;
+    margin-bottom: 18px;
+}
+
+.subform-pesquisa-pergunta {
+    background: #fafafa;
+    border: dashed 1px #ddd;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.subform-pesquisa-pergunta h2 {
+    margin-bottom: 10px;
+}
+
+.subform-pesquisa-pergunta-opcao {
+    background: #f0f0f0;
+    border: dashed 1px #ddd;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.subform-pesquisa-pergunta-opcao h3 {
+    margin-bottom: 10px;
+}
+
+/* Ajustes necessários ao bootstrap do twitter */
+
+.tab-content {
+    display: table;
+    width: 100%;
+}
+
+.pesquisa .resposta {
+    background: #fafafa;
+    border: dashed 1px #ddd;
+    padding: 10px 10px 0 10px;
+    margin-bottom: 20px;
+}
+
+#ui-datepicker-div { width:273px; }
+.ui-datepicker td a { width:30px; }
+
+table.table .btn-group a.btn-mini i.icon-cog { margin-top:0px; }
+table.table .btn-group a.btn-mini i.icon-cog ~ .caret { margin-top:9px; }
+
+#Noticias_Form_Noticia #fieldset-dg_imagem .control-group .control-label,
+#Noticias_Form_Noticia #fieldset-dg_imagem .control-group .controls input { margin:55px 0; }
+#Noticias_Form_Noticia #fieldset-dg_imagem .control-group { width:45%; float:left; }

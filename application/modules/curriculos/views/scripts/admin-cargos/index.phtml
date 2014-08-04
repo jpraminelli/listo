@@ -1,0 +1,113 @@
+<div class="row">
+
+    <div class="span10">
+        <h1><?php echo $this->pageTitle; ?></h1>
+    </div>
+
+    <div class="span2">
+        <a class="btn btn-primary pull-right" href="<?php echo $this->pageUrl; ?>/form">Novo cargo</a>
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="span3">
+        <?php echo $this->formFilter; ?>
+    </div>
+
+    <div class="span9">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="span4">Nome</th>
+                    <th class="span4">Área</th>
+                    <th class="span1" style="text-align:center;">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($this->lista instanceof Zend_Paginator && $this->lista->getCurrentItemCount() > 0) : ?>
+                    <?php foreach ($this->lista as $dados): ?>
+                        <?php $muted = (!$dados->ativo) ? 'muted' : ''; ?>
+                        <tr>
+                            <td class="<?php echo ($muted) ?>"><?php echo $dados->nome ?></td>
+                            <td class="<?php echo ($muted) ?>"><?php echo $dados->area_nome ?></td>
+                            <td style="text-align:center;">
+                                <div class="btn-group" style="text-align:left;">
+                                    <a class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+                                        <i class="icon-white icon-cog"></i> <span class="caret"></span>
+                                    </a>
+                                    <!--<button class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown"></button>-->
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a title="Editar" href="<?php echo $this->pageUrl; ?>/form/id/<?php echo $dados->id; ?>">
+                                                <i class="icon-edit"></i> Editar
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a title="<?php echo $dados->ativo > 0 ? 'Desa' : 'A'; ?>tivar" href="<?php echo $this->pageUrl; ?>/ativar-desativar/id/<?php echo $dados->id; ?>">
+                                                <i class="icon-thumbs-<?php echo $dados->ativo > 0 ? 'down' : 'up'; ?>"></i> <?php echo $dados->ativo > 0 ? 'Desa' : 'A'; ?>tivar
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a title="Excluir" href="<?php echo $this->pageUrl; ?>/excluir/id/<?php echo $dados->id; ?>" class="link-excluir">
+                                                <i class="icon-trash"></i> Excluir
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="5" align="center">Nenhum cargo encontrado.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        
+        $(function() {
+            $('#limpar').click(function() {
+                $('#Curriculos_Form_FiltroCargos select option').removeAttr('selected');
+                $('#Curriculos_Form_FiltroCargos input:text').val('');
+                $('#Curriculos_Form_FiltroCargos').submit();
+            });
+            $('#Curriculos_Form_FiltroCargos').submit(function() {
+                $('#Curriculos_Form_FiltroCargos #pagina').val('');
+            });        
+        });        
+        
+    
+<?php //TODO: a quantidade de currículos relacionados deve ser calculada somente se o usuário mandar excluir uma área e não para todo mundo o tempo todo: implementar  ?>
+        $('.link-excluir').click(function(){
+            var link = $(this).attr('href');
+            var qtde = $(this).parent().parent().find('.curriculos_qtde').val();
+            var msg = qtde > 0 ? 'Existe(m) ' + qtde + ' currículo(s) relacionado(s) a esse registro.<br />A exclusão deste cargo removerá, também, esta associação.<br /><strong>Confirma a operação?</strong>' : 'Confirma a exclusão deste cargo?';
+            $('<div />').html(msg).dialog({
+                modal : true,
+                resizable : false,
+                title : 'Atenção',
+                width : 450,
+                buttons : {
+                    'Ok' : function(){
+                        location.href = link;
+                        $(this).dialog('close');
+                        $(this).dialog('widget').remove();
+                    },
+                    'Cancelar' : function(){
+                        $(this).dialog('close');
+                        $(this).dialog('widget').remove();
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>

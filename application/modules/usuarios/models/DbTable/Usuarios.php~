@@ -1,0 +1,53 @@
+<?php
+
+class Usuarios_Model_DbTable_Usuarios extends Magic_Db_Table_Abstract
+{
+
+    protected $_name = 'usuarios';
+
+    protected function getSelect(array $filtros = array())
+    {
+        $select = $this->select();
+        $select->from(array('u' => $this->_name))
+                ->order('nome ASC');
+
+        if (isset($filtros['status']) && $filtros['status'] != '') {
+            $select->where('ativo::text = ?', $filtros['status']);
+        }
+
+        if (isset($filtros['perfil']) && $filtros['perfil'] != '') {
+            $select->where('perfil = ?', $filtros['perfil']);
+        }
+
+        if (isset($filtros['buscar'])) {
+            if (is_numeric($filtros['buscar'])) {
+<<<<<<< HEAD
+                $select->where('cpf = ?', $filtros['buscar']);
+=======
+                $select->where('cpf = ?::integer', $filtros['buscar']);
+>>>>>>> 34bbe565efbe5f3a6e5340e7c874dae2c19e069c
+            } else {
+                $select->where('nome ILIKE(?)', '%' . $filtros['buscar'] . '%');
+            }
+        }
+
+        return $select;
+    }
+
+    /**
+     * Obtém um usuário através do seu número de CPF.
+     * 
+     * @param mixed $cpf CPF do usuário (com ou sem formatação).
+     * @return Zend_Db_Table_Row Usuário.
+     */
+    public function getByCpf($cpf)
+    {
+        $filter = new Zend_Filter_Digits();
+        $cpf = (int) $filter->filter($cpf);
+        if (!$cpf) {
+            return null;
+        }
+        return $this->fetchRow($this->select()->where('cpf = ?', $cpf));
+    }
+
+}

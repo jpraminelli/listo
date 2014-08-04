@@ -1,0 +1,11 @@
+<h1><?php echo $this->pageTitle; ?></h1>
+
+<?php echo $this->form ?>
+
+<script type="text/javascript">
+    $(function() {
+        $('form').magicform({
+            onOkForwardTo : '<?php echo $this->backUrl; ?>'
+        });
+    });
+</script>

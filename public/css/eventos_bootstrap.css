@@ -1,0 +1,11 @@
+#Eventos_Form_Evento #titulo-container { width:850px; float:left; }
+#Eventos_Form_Evento #ativo-container { width:auto; float:right; }
+#Eventos_Form_Evento #ativo-container label { width:60px; }
+#Eventos_Form_Evento #ativo-container .controls { margin-left:80px; }
+
+.modal.fade {
+    -webkit-transition: opacity .05s linear,top .05s ease-out;
+    -moz-transition: opacity .05s linear,top .05s ease-out;
+    -o-transition: opacity .05s linear,top .05s ease-out;
+    transition: opacity .05s linear,top .05s ease-out;
+}

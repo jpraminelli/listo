@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="iso-8859-1">
+        <base href="<?php echo WWWROOT ?>" />
+        <?php echo $this->headTitle() ?>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="<?php APPNAME;?>">
+        <?php echo $this->headMeta() ?>
+        <?php
+        // -------------------------------------------------------------------------------------------------------------
+        // Ícone
+        // NUNCA JAMAIS NEVER apontar o ícone para um arquivo inexistente
+        // -------------------------------------------------------------------------------------------------------------
+        ?>
+        <!--<link rel="shortcut icon" href="" />-->
+        <?php
+        // -------------------------------------------------------------------------------------------------------------
+        // CSS
+        // -------------------------------------------------------------------------------------------------------------
+        ?>
+        <link href="css/jqueryui/jquery-ui-1.8.14.custom.css" media="screen" rel="stylesheet" type="text/css" />
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            body { padding-top: 60px; }
+        </style>
+        <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="css/admin.css" rel="stylesheet">
+        <?php echo $this->headStyle() ?>
+        <?php
+        // -------------------------------------------------------------------------------------------------------------
+        // Javascript
+        // -------------------------------------------------------------------------------------------------------------
+        ?>
+        <script type="text/javascript">
+            var WWWROOT = '<?php echo WWWROOT ?>';
+        </script>
+        <!-- IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+        <script src="js/html5.js"></script>
+        <![endif]-->
+        <script src="js/jquery-1.7.1.min.js"></script>
+        <script src="bootstrap/js/bootstrap.js"></script>
+        <script type="text/javascript" src="js/jquery-ui-1.8.14.custom.min.js"></script>
+        <script type="text/javascript" src="js/jquery.ui.datepicker-pt-BR.js"></script>
+        <script type="text/javascript" src="js/jquery.meio.mask.min.js"></script>
+        <script type="text/javascript" src="js/jquery.magicform.js"></script>
+        <?php echo $this->headLink() ?>
+        <?php echo $this->headScript() ?>
+        <?php echo $this->inlineScript() ?>
+    </head>
+
+    <body>
+        <?php
+        // ------------------------------------------------------------------------------------------------------------
+        // Monta um menu compatível com o bootstrap (twitter) através do helper Lib_View_Helper_Navigation_Menu
+        // ------------------------------------------------------------------------------------------------------------
+        ?>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="<?php echo DASHBOARD ?>"><?php echo Lib_Config_Ini::instance()->appname; ?></a>
+                    <div class="nav-collapse">
+                        <?php
+                        // --------------------------------------------------------------------------------------------
+                        // Opções do menu definidas em navigation.ini
+                        // --------------------------------------------------------------------------------------------
+                        ?>
+                        <?php echo $this->navigation()->menu() ?>
+
+                        <?php
+                        // --------------------------------------------------------------------------------------------
+                        // Link para logout (fixo, do lado direito da barra de menu)
+                        // --------------------------------------------------------------------------------------------
+                        ?>
+                        <ul class="nav pull-right">
+                            <li>
+                                <a href="logout">Sair</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <?php
+            // --------------------------------------------------------------------------------------------------------
+            // Flash messages
+            // --------------------------------------------------------------------------------------------------------
+            echo $this->flashMessage();
+
+            // --------------------------------------------------------------------------------------------------------
+            // Conteúdo
+            // --------------------------------------------------------------------------------------------------------
+            echo $this->layout()->content;
+            ?>
+        </div>
+
+    </body>
+</html>

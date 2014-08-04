@@ -1,0 +1,153 @@
+<div class="row">
+    <div class="span10">
+        <h1><?php echo $this->pageTitle; ?></h1>
+    </div>
+    <div class="span2">
+        <a class="btn btn-primary pull-right" href="<?php echo $this->pageUrl; ?>/form">Novo banner</a>
+    </div>
+</div>
+<div class="row">
+    <div class="span3">
+        <?php echo $this->formFilter; ?>
+    </div>
+    <div class="span9">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th class="span3">Ordem</th>
+                    <th class="span3">Nome</th>
+                    <th class="span3">URL</th>
+                    <th class="span1" style="text-align:center;">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($this->lista->getCurrentItemCount() > 0) : ?>
+                    <?php foreach ($this->lista as $dados): ?>
+
+                        <tr>
+                            <td>
+                                <? if (is_file('arquivos/banners/' . md5($dados->id))) { ?>
+                                    <img src="image.php?src=arquivos/banners/<?php echo md5($dados->id); ?>&amp;w=100&amp;h=100&amp;zc=0" class="img-rounded img-polaroid" alt="" title="" />
+                                <? } else {
+                                    echo '&nbsp;';
+                                } ?>
+                            </td>
+                            <td class=""><?php echo $dados->ordem ?></td>
+                            <td class=""><?php echo $dados->nome ?></td>
+                            <td class=""><?php echo $dados->url ?></td>
+                            <td style="text-align:center;">
+                                <div class="btn-group" style="text-align:left;">
+                                    <a class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown">
+                                        <i class="icon-white icon-cog"></i>
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a title="Editar" href="<?php echo $this->pageUrl; ?>/form/id/<?php echo $dados->id; ?>">
+                                                <i class="icon-edit"></i> Editar
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a data-target="#modal_excluir" data-remote="" data-toggle="modal" class="link-excluir" rel="Tem certeza que deseja excluir esse banner?" title="Excluir" href="<?php echo $this->pageUrl; ?>/excluir/id/<?php echo $dados->id; ?>">
+                                                <i class="icon-trash"></i> Excluir
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a style="cursor: pointer" data-target="#modal_ordem" rel="<?php echo $dados->id; ?>" data-remote="<?php echo $dados->ordem; ?>" data-toggle="modal" class="link-ordem" title="Alterar Ordem">
+                                                <i class="icon-pencil"></i> Alterar Ordem
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+    <?php endforeach; ?>
+<?php else: ?>
+                    <tr>
+                        <td colspan="6" align="center">Nenhum banner encontrado.</td>
+                    </tr>
+        <?php endif; ?>
+            </tbody>
+        </table>
+<?php echo $this->paginationControl($this->lista, 'Sliding', array('admin/paginacao.phtml', 'magic'), array('filtros' => $this->filtros)); ?>
+    </div>
+</div>
+
+<div id="modal_excluir" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Confirmação</h3>
+    </div>
+    <div class="modal-body">
+        <p></p>
+    </div>
+    <div class="modal-footer">
+        <a href="javascript:void(0);" id="btn-excluir-confirmacao" class="btn btn-primary">Sim</a>
+        <a href="javascript:void(0);" class="btn" data-dismiss="modal">Não</a>
+    </div>
+</div>
+
+<div id="modal_ordem" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Editar Ordem</h3>
+    </div>
+    <div class="modal-body">
+        <form method="POST" id="form-ordem" name="form-ordem" action="<?php echo $this->pageUrl; ?>/alterar-ordem">
+            <div class="control-group"><label class="control-label required" for="ordem">Ordem</label>
+                <div class="controls">
+                    <select class="span2" id="ordem" name="ordem">
+                        <option label="Selecione" value="">Selecione</option>
+                        <option label="1" value="1">1</option>
+                        <option label="2" value="2">2</option>
+                        <option label="3" value="3">3</option>
+                        <option label="4" value="4">4</option>
+                        <option label="5" value="5">5</option>
+                    </select>
+                    <input type="hidden" id="id-banner" name="id-banner" value="" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a href="javascript:document.forms['form-ordem'].submit();" id="btn-excluir-confirmacao" class="btn btn-primary">Alterar</a>
+        <a href="javascript:void(0);" class="btn" data-dismiss="modal">Cancelar</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        $('#limpar').click(function() {
+            $('#Banners_Form_Filtros select option').removeAttr('selected');
+            $('#Banners_Form_Filtros input:text').val('');
+            $('#Banners_Form_Filtros').submit();
+        });
+        $('#Banners_Form_Filtros').submit(function() {
+            $('#Banners_Form_Filtros #pagina').val('');
+        });        
+        $('.link-excluir').click(function(){
+            $('#btn-excluir-confirmacao').attr('href', this.href);
+            $('#modal_excluir .modal-body p').text(this.rel);
+        });
+        
+        //alterar a ordem do banner
+        $('.link-ordem').click(function(){
+
+            id = $(this).attr('rel');
+            ordem = $(this).attr('data-remote');
+            
+            $('#ordem option').each(function(){
+                if($(this).val() == ordem){
+                    $(this).attr('selected',true);
+                }
+            });
+            
+            $('#id-banner').val(id);
+            
+            
+        });
+    });
+</script>

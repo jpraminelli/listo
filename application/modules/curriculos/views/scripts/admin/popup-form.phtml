@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="iso-8859-1">
+        <base href="<?= WWWROOT ?>" />
+        <?= $this->inlineScript() ?>
+    </head>
+
+    <body>
+
+        <h1><?php echo $this->pageTitle; ?></h1>
+
+        <?php echo $this->form ?>
+
+        <script type="text/javascript">
+            $(function() {
+                $('#Curriculos_Form_Curriculo').magicform({
+                    onOk : function() {
+                        $('#editar_curriculo').modal('hide');
+                    }
+                });
+        
+                <?php if (!IS_MOBILE) { ?>
+                    $("#pontuacao").setMask({mask : '9999', autoTab: false});
+                <?php } ?>
+            
+            });
+    
+            <?php echo $this->partial('_form.js'); ?>
+            
+            $('#Curriculos_Form_Curriculo #Cancelar').removeAttr('onclick');
+            $('#Curriculos_Form_Curriculo #Cancelar').attr('data-dismiss', 'modal');
+        </script>
+
+    </body>
+</html>

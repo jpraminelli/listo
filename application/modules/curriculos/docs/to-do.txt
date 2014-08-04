@@ -1,0 +1,10 @@
+Melhorar o índice do sphinx incluindo mais campos para serem utilizados como filtro nas pesquisas;
+
+Bruno - CRUD de áreas e cargos;
+
+Bruno - CRUD de listas;
+
+Tela de resultado da pesquisa (incluir todos os campos e criar uma variação onde cada resultado tenha um checkbox para seleção de multiplos currículos;
+
+Form de consulta e ações;
+

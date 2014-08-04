@@ -1,0 +1,15 @@
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-s
+RewriteCond %{REQUEST_FILENAME} \.htm$
+RewriteRule (.*\.htm?) html/$1
+
+RewriteCond %{REQUEST_FILENAME} -s [OR]
+RewriteCond %{REQUEST_FILENAME} -l [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^.*$ - [NC,L]
+RewriteRule !\.(css|js|swf)$ index.php [NC,L]
+
+<IfModule mod_php5.c>
+    php_flag Lib_quotes_gpc off
+</IfModule>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="iso-8859-1">
+        <base href="<?= WWWROOT ?>" />
+        <?= $this->headTitle() ?>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Magic Web Design">
+        <?= $this->headMeta() ?>
+        <?php
+        // -------------------------------------------------------------------------------------------------------------
+        // Ícone
+        // -------------------------------------------------------------------------------------------------------------
+        ?>
+        <link rel="shortcut icon" href="" />
+        <?php
+        // -------------------------------------------------------------------------------------------------------------
+        // CSS
+        // -------------------------------------------------------------------------------------------------------------
+        ?>
+        <link href="css/jqueryui/jquery-ui-1.8.14.custom.css" media="screen" rel="stylesheet" type="text/css" />
+        <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+        <style>
+            body { padding-top: 60px; }
+        </style>
+        <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+        <link href="css/admin.css" rel="stylesheet">
+        <?= $this->headStyle() ?>
+        <?php
+        // -------------------------------------------------------------------------------------------------------------
+        // Javascript
+        // -------------------------------------------------------------------------------------------------------------
+        ?>
+        <script type="text/javascript">
+            var WWWROOT = '<?= WWWROOT ?>';
+        </script>
+        <!-- IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+        <script src="js/html5.js"></script>
+        <![endif]-->
+        <script src="js/jquery-1.7.1.min.js"></script>
+        <script src="bootstrap/js/bootstrap.js"></script>
+        <script type="text/javascript" src="js/jquery-ui-1.8.14.custom.min.js"></script>
+<!--        <script type="text/javascript" src="js/jquery.ui.datepicker-pt-BR.js"></script>-->
+<!--        <script type="text/javascript" src="js/jquery.meio.mask.min.js"></script>-->
+        <script type="text/javascript" src="js/jquery.magicform.js"></script>
+        <?= $this->headLink() ?>
+        <?= $this->headScript() ?>
+        <?= $this->inlineScript() ?>
+    </head>
+
+    <body>
+        <?php
+        // ------------------------------------------------------------------------------------------------------------
+        // Monta a casca do menu somente com o nome do projeto
+        // ------------------------------------------------------------------------------------------------------------
+        ?>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="brand" href="<?= WWWROOT ?>login">AGF Engenharia</a>
+                </div>
+            </div>
+        </div>
+        <?php
+        // ------------------------------------------------------------------------------------------------------------
+        // Conteúdo
+        // ------------------------------------------------------------------------------------------------------------
+        ?>
+        <div class="container">
+            <?php
+            // --------------------------------------------------------------------------------------------------------
+            // Flash messages
+            // --------------------------------------------------------------------------------------------------------
+            echo $this->flashMessage();
+            //
+            ?>
+            <div class="clearfix hidden-phone hidden-tablet" style="padding-top: 100px"></div>
+            <div class="row">
+                <div class="span4 offset4">
+                    <h2>Alteração de senha</h2>
+                    <hr />
+                    <form action="" method="post">
+                        <label>Informe uma nova senha</label>
+                        <input class="span3" type="password" name="senha" id="senha" value="<?= $this->form->getElement('senha')->getValue() ?>" maxlength="100" />
+                        <label>Redigite a nova senha</label>
+                        <input class="span3" type="password" name="confirma_senha" id="confirma_senha" value="<?= $this->form->getElement('confirma_senha')->getValue() ?>" maxlength="100" />
+
+                        <div class="clearfix" style="padding-top: 10px"></div>
+
+                        <button type="submit" class="btn btn-primary">Confirmar</button>
+                    </form>
+                </div>
+            </div>            
+        </div>
+        <script type="text/javascript">
+            //            $('form').magicform();
+            $(function() {
+                $('#senha').focus();
+            });
+        </script>
+    </body>
+</html>

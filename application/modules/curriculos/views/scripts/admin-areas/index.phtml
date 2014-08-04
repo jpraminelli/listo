@@ -1,0 +1,156 @@
+<div class="row">
+
+    <div class="span10">
+        <h1><?php echo $this->pageTitle; ?></h1>
+    </div>
+
+    <div class="span2">
+        <a class="btn btn-primary pull-right" href="<?php echo $this->pageUrl; ?>/form">Nova área</a>
+    </div>
+
+</div>
+
+
+<div class="row">
+
+    <div class="span12">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="span11">Nome</th>
+                    <th class="span1" style="text-align:center;">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($this->lista->count()) : ?>
+                    <?php foreach ($this->lista as $dados): ?>
+                        <?php $muted = (!$dados->ativa) ? 'muted' : ''; ?>
+                        <tr>
+                            <td class="<?php echo ($muted) ?>" style="vertical-align:middle;"><?php echo $dados->nome ?></td>
+                            <td style="text-align:center;">
+                                <div class="btn-group" style="text-align:left;">
+                                    <a class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown">
+                                        <i class="icon-white icon-cog"></i>
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <?php $label = ($dados->ativa > 0 ? 'desa' : 'a') . 'tivar'; ?>
+                                        <li>
+                                            <a title="Editar" href="<?php echo $this->pageUrl; ?>/form/id/<?php echo $dados->id; ?>">
+                                                <i class="icon-edit"></i>
+                                                Editar
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a data-target="#modal_status" data-remote="" data-toggle="modal" class="link-status" rel="Tem certeza que deseja <?php echo $label; ?> essa área?" title="<?php echo ucfirst($label); ?>" href="<?php echo $this->pageUrl; ?>/ativar-desativar/id/<?php echo $dados->id; ?>">
+                                                <i class="icon-thumbs-<?php echo $dados->ativa > 0 ? 'down' : 'up'; ?>"></i>
+                                                <?php echo ucfirst($label); ?>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a data-target="#modal_excluir" data-remote="" data-toggle="modal" class="link-excluir" data-qtde="<?php echo $dados->curriculos_qtde; ?>" title="Excluir" href="<?php echo $this->pageUrl; ?>/excluir/id/<?php echo $dados->id; ?>">
+                                                <i class="icon-trash"></i>
+                                                Excluir
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="5" align="center">Nenhuma área encontrada.</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="modal_status" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Confirmação</h3>
+    </div>
+    <div class="modal-body">
+        <p></p>
+    </div>
+    <div class="modal-footer">
+        <a href="javascript:void(0);" id="btn-status-confirmacao" class="btn btn-primary">Sim</a>
+        <a href="javascript:void(0);" class="btn" data-dismiss="modal">Não</a>
+    </div>
+</div>
+
+<div id="modal_excluir" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Confirmação</h3>
+    </div>
+    <div class="modal-body">
+        <p>Tem certeza que deseja excluir essa área?</p>
+        <p class="_qtde_hidden">Existe(m) currículo(s) relacionado(s) a esse registro.</p>
+        <p class="_qtde_hidden">A exclusão desta área removerá, também, esta associação com os currículos, além de todos os cargos relacionados.</p>
+        <p class="_qtde_hidden"<strong>Confirma a operação?</strong></p>
+    </div>
+    <div class="modal-footer">
+        <a href="javascript:void(0);" id="btn-excluir-confirmacao" class="btn btn-primary">Sim</a>
+        <a href="javascript:void(0);" class="btn" data-dismiss="modal">Não</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        $('.link-status').click(function(){
+            $('#btn-status-confirmacao').attr('href', this.href);
+            $('#modal_status .modal-body p').text(this.rel);
+        });
+        $('.link-excluir').click(function(){
+            if($(this).attr('data-qtde') > 0) {
+                $('#modal_excluir .modal-body ._qtde_hidden').show();
+            } else {
+                $('#modal_excluir .modal-body ._qtde_hidden').hide();
+            }
+            $('#btn-excluir-confirmacao').attr('href', this.href);
+        });
+    });
+</script>
+
+
+<?php /*
+  <script type="text/javascript">
+  $(function(){
+  $('.link-excluir').click(function() {
+  <?php //TODO: a quantidade de currículos relacionados deve ser calculada somente se o usuário mandar excluir uma área e não para todo mundo o tempo todo: implementar    ?>
+  var link = $(this).attr('href');
+  var qtde = $(this).parent().parent().find('.curriculos_qtde').val();
+  var msg;
+  if (qtde > 0) {
+  msg = 'Existe(m) ' + qtde + ' currículo(s) relacionado(s) a esse registro.<br />A exclusão desta área removerá, também, esta associação com os currículos, além de todos os cargos relacionados.<br /><strong>Confirma a operação?</strong>'
+  } else {
+  msg = 'Confirma a exclusão desta área?';
+  }
+  $('<div />').html(msg).dialog({
+  modal : true,
+  resizable : false,
+  title : 'Atenção',
+  width : 450,
+  buttons : {
+  'Ok' : function(){
+  location.href = link;
+  $(this).dialog('close');
+  $(this).dialog('widget').remove();
+  },
+  'Cancelar' : function(){
+  $(this).dialog('close');
+  $(this).dialog('widget').remove();
+  }
+  }
+  });
+  return false;
+  });
+
+  });
+  </script>
+
+ */ ?>

@@ -1,0 +1,160 @@
+<div class="row">
+
+    <div class="span10">
+        <h1><?php echo $this->pageTitle ?></h1>
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="span3">
+        <?php echo $this->formFilter ?>
+    </div>
+
+    <div class="span9">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="span3">Nome</th>
+                    <th class="span2 hidden-phone">Cidade</th>
+                    <th class="span2 hidden-phone">Cargo</th>
+                    <th class="span1">Pts</th>
+                    <th class="span1 hidden-phone">Atualização</th>
+                    <th class="span1" style="text-align:center;">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($this->lista && $this->lista->getCurrentItemCount() > 0) : ?>
+                    <?php foreach ($this->lista as $dados): ?>
+                        <?php $muted = (!$dados->ativo) ? 'muted' : '' ?>
+                        <tr>
+                            <td class="<?php echo $muted; ?>"><?php echo $dados->nome ?></td>
+                            <td class="hidden-phone <?php echo $muted; ?>"><?php echo $dados->fmt_cidade() ?></td>
+                            <td class="hidden-phone <?php echo $muted; ?>"><?php echo $dados->getCargos() ?></td>
+                            <td class="<?php echo $muted; ?>" style="text-align: right"><?php echo $dados->pontuacao ?></td>
+                            <td class="hidden-phone <?php echo $muted; ?>"><?php echo $dados->fmt_dh_atualizacao() ?></td>
+                            <td style="text-align:center;">
+                                <div class="btn-group" style="text-align:left;">
+                                    <a class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);">
+                                        <i class="icon-white icon-cog"></i> <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a title="Editar" href="<?php echo $this->pageUrl ?>/form/id/<?php echo $dados->id ?>">
+                                                <i class="icon-edit"></i> Editar
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <?php $label = ($dados->ativo > 0 ? 'des' : '') . 'ativar'; ?>
+                                            <a class="link-status" title="<?php echo ucfirst($label); ?>" href="<?php echo $this->pageUrl ?>/ativar-desativar/id/<?php echo $dados->id ?>" data-text="Tem certeza que desejar <?php echo $label; ?> esse registro?" data-toggle="modal" data-target="#modal_status" data-remote="false">
+                                                <i class="icon-thumbs-<?php echo $dados->ativo ? 'down' : 'up'; ?>"></i>
+                                                <?php echo ucfirst($label); ?>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a title="Visualizar" href="<?php echo $this->pageUrl ?>/visualizar/id/<?php echo $dados->id ?>" target="_blank">
+                                                <i class="icon-zoom-in"></i> Visualizar
+                                            </a>
+                                        </li>
+                                        <!--                                        <li>
+                                                                                    <a title="Excluir" href="<?php echo $this->pageUrl ?>/excluir/id/<?php echo $dados->id ?>" class="link-excluir">
+                                                                                        <i class="icon-trash"></i> Excluir
+                                                                                    </a>
+                                                                                </li>-->
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="6" align="center">Nenhum currículo encontrado.</td>
+                    </tr>
+                <?php endif ?>
+            </tbody>
+        </table>
+        <?php echo $this->lista ? $this->paginationControl($this->lista, 'Sliding', array('admin/paginacao.phtml', 'magic'), array('filtros' => $this->filtros)) : null; ?>
+    </div>
+</div>
+
+<div id="modal_status" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Confirmação</h3>
+    </div>
+    <div class="modal-body">
+        <p></p>
+    </div>
+    <div class="modal-footer">
+        <a href="javascript:void(0);" id="btn-status-confirmacao" class="btn btn-primary">Sim</a>
+        <a href="javascript:void(0);" class="btn" data-dismiss="modal">Não</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+
+<?php if (!IS_MOBILE) : ?>
+            $('#data_atualizacao').setMask({mask : '99/99/9999', autoTab: false}).datepicker();
+<?php endif; ?>
+
+        $('#limpar').click(function() {
+            $('#Curriculos_Form_Filtros select option').removeAttr('selected');
+            $('#Curriculos_Form_Filtros input:text').val('');
+            $('#Curriculos_Form_Filtros').submit();
+        });
+        $('#Curriculos_Form_Filtros').submit(function() {
+            $('#Curriculos_Form_Filtros #pagina').val('');
+        });
+        
+        $('#area_id').change(function() {
+            var area_id = $(this).val();
+            var comboCargo = $('#cargo_id');
+//            var url = '<?php echo WWWROOT ?>curriculos/novo/lista-combo-cargos/area/' + area_id;
+            var url = '<?php echo WWWROOT ?>curriculos/admin-cargos/lista-combo-cargos/area/' + area_id;
+
+            comboCargo.empty();
+
+            if (area_id) {
+                comboCargo.append('<option value="">Carregando...</option>');
+                $.getJSON(url, function(data) {
+                    comboCargo.empty();
+                    $.each(data, function(key, val) {
+                        comboCargo.append('<option value="' + val.id + '">' + val.nome + '</option>');
+                    });
+                });
+            } else {
+                comboCargo.append('<option value="">Todos</option>');
+            }
+        });
+
+        $('#estado_id').change(function() {
+            var estado_id = $(this).val();
+            var comboCidade = $('#cidade_id');
+            var url = '<?php echo WWWROOT ?>geo/consulta/lista-combo-cidades/uf/' + estado_id;
+
+            comboCidade.empty();
+
+            if (estado_id) {
+                comboCidade.append('<option value="">Carregando...</option>');
+                $.getJSON(url, function(data) {
+                    comboCidade.empty();
+                    $.each(data, function(key, val) {
+                        comboCidade.append('<option value="' + val.id + '">' + val.nome + '</option>');
+                    });
+                });
+            } else {
+                comboCidade.append('<option value="">Todas</option>');
+            }
+        });
+
+        $('.link-status').click(function(){
+            var href = $(this).attr('href');
+            var text = $(this).attr('data-text');
+
+            $('#modal_status #btn-status-confirmacao').attr('href', href);
+            $('#modal_status .modal-body p').html(text);
+        });
+    });
+</script>

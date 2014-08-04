@@ -1,0 +1,19 @@
+<h1><?php echo $this->pageTitle; ?></h1>
+
+<?php echo $this->form ?>
+
+<div class="row">
+
+    <div class="span12">
+    </div>
+    
+</div>
+
+
+<script type="text/javascript">
+    $(function() {
+        $('form').magicform({
+            onOkForwardTo : '<?= WWWROOT ?><?php echo $this->pageUrl; ?>'
+        });
+    });
+</script>

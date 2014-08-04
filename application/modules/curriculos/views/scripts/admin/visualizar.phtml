@@ -1,0 +1,257 @@
+<div class="pull-right">
+    <a href="javascript:void(0);" class="btn btn-info" onclick="window.print();">
+        <i class="icon-print icon-white"></i> Imprimir
+    </a>
+</div>
+
+<h1 style="margin-left:160px;"><?php echo $this->curriculo->nome; ?></h1>
+
+<hr />
+
+<div id="visualizar_curriculo" class="form-horizontal">
+
+    <div class="control-group">
+        <label class="control-label">CPF</label>
+        <div class="controls">
+            <strong><?php echo $this->curriculo->fmt_cpf(); ?></strong>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label">E-mail</label>
+        <div class="controls">
+            <strong><?php echo $this->curriculo->email; ?></strong>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label">Data de Nascimento</label>
+        <div class="controls">
+            <strong><?php echo $this->curriculo->fmt_data_nascimento(); ?></strong>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label">Sexo</label>
+        <div class="controls">
+            <strong><?php echo $this->curriculo->sexo; ?></strong>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label">Endereço</label>
+        <div class="controls">
+            <strong><?php echo $this->curriculo->endereco . ' - ' . $this->curriculo->fmt_cidade(); ?></strong>
+        </div>
+    </div>
+
+    <?php if ($this->telefones->count() > 0) : ?>
+        <hr />
+        <h3>Telefones</h3>
+
+        <?php foreach ($this->telefones as $telefone) : ?>
+            <div class="sub_info">
+                <div class="control-group">
+                    <label class="control-label">Telefone</label>
+                    <div class="controls">
+                        <strong><?php echo $telefone->numero; ?></strong>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
+    <?php if ($this->cargos->count() > 0) : ?>
+        <hr />
+        <h3>Cargo(s) Pretendido(s)</h3>
+
+        <?php foreach ($this->cargos as $cargo) : ?>
+            <div class="sub_info">
+                <div class="control-group">
+                    <label class="control-label">Área</label>
+                    <div class="controls">
+                        <strong><?php echo $cargo->area_nome; ?></strong>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Cargo</label>
+                    <div class="controls">
+                        <strong><?php echo $cargo->cargo_nome; ?></strong>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
+    <?php if ($this->escolaridades->count() > 0) : ?>
+        <hr />
+        <h3>Cursos / Formação</h3>
+
+        <div class="control-group">
+            <label class="control-label">Escolaridade</label>
+            <div class="controls">
+                <strong><?php echo $this->curriculo->escolaridade_nome; ?></strong>
+            </div>
+        </div>
+
+        <?php foreach ($this->escolaridades as $escolaridade) : ?>
+            <div class="sub_info">
+                <div class="control-group">
+                    <label class="control-label">Instituição</label>
+                    <div class="controls">
+                        <strong><?php echo $escolaridade->instituicao; ?></strong>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Duração</label>
+                    <div class="controls">
+                        <strong><?php echo $escolaridade->duracao; ?></strong>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Curso</label>
+                    <div class="controls">
+                        <strong><?php echo $escolaridade->curso; ?></strong>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Tipo</label>
+                    <div class="controls">
+                        <strong><?php echo $escolaridade->escolaridade_tipo_nome; ?></strong>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
+    <?php if ($this->experiencias->count() > 0) : ?>
+        <hr />
+        <h3>Cursos Adicionais</h3>
+
+        <?php foreach ($this->cursos as $curso) : ?>
+            <div class="sub_info">
+                <div class="control-group">
+                    <label class="control-label">Instituição</label>
+                    <div class="controls">
+                        <strong><?php echo $curso->instituicao; ?></strong>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Duração</label>
+                    <div class="controls">
+                        <strong><?php echo $curso->duracao; ?></strong>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Curso</label>
+                    <div class="controls">
+                        <strong><?php echo $curso->curso; ?></strong>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
+    <?php if ($this->experiencias->count() > 0) : ?>
+        <hr />
+
+        <h3>Experiência Profissional</h3>
+
+        <?php foreach ($this->experiencias as $experiencia) : ?>
+            <div class="sub_info">
+                <div class="control-group">
+                    <label class="control-label">Empresa</label>
+                    <div class="controls">
+                        <strong><?php echo $experiencia->empresa; ?></strong>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Cargo</label>
+                    <div class="controls">
+                        <strong><?php echo $experiencia->cargo; ?></strong>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Tempo de trabalho</label>
+                    <div class="controls">
+                        <strong><?php echo $experiencia->tempo_trabalho; ?></strong>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Pessoa para contato</label>
+                    <div class="controls">
+                        <strong><?php echo $experiencia->contato_pessoa; ?></strong>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Telefone</label>
+                    <div class="controls">
+                        <strong><?php echo $experiencia->contato_telefone; ?></strong>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Resumo das atividades</label>
+                    <div class="controls">
+                        <strong><?php echo $experiencia->resumo_atividades; ?></strong>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
+    <hr />
+
+    <div class="control-group">
+        <label class="control-label">Pretensão Salarial</label>
+        <div class="controls">
+            <strong><?php echo $this->curriculo->fmt_pretensao_salarial(); ?></strong>
+        </div>
+    </div>
+
+    <div class="control-group long-label">
+        <label class="control-label">Disponibilidade para viajar?</label>
+        <div class="controls">
+            <strong><?php echo $this->curriculo->disponibilidade_viagens > 0 ? 'Sim' : 'Não'; ?></strong>
+        </div>
+    </div>
+
+    <div class="control-group long-label">
+        <label class="control-label">Disponibilidade para trabalhar em todas as regiões do país?</label>
+        <div class="controls">
+            <strong><?php echo $this->curriculo->disponibilidade_viagens > 0 ? 'Sim' : 'Não'; ?></strong>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" style="width:auto;margin-left:34px;">Observações Gerais</label>
+        <div class="controls" style="margin-left:172px;">
+            <strong><?php echo!empty($this->curriculo->observacoes_gerais) ? nl2br($this->curriculo->observacoes_gerais) : '<span class="muted">nada especificado</span>'; ?></strong>
+        </div>
+    </div>
+
+    <?php if ($this->notas->count() > 1) : ?>
+        <hr />
+
+        <h3>Notas</h3>
+
+        <?php foreach ($this->notas as $nota) : ?>
+            <div class="sub_info">
+                <div class="control-group">
+                    <label class="control-label">Nota</label>
+                    <div class="controls">
+                        <strong><?php echo $nota->texto; ?></strong>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Autor da nota</label>
+                    <div class="controls">
+                        <strong><?php echo $nota->usuario_nome; ?></strong>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
+    <hr style="margin-bottom:200px;" />
+
+</div>

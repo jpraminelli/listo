@@ -1,0 +1,226 @@
+<h1><?php echo $this->pageTitle; ?></h1>
+
+<?php echo $this->form ?>
+
+
+<?php
+// ------------------------------------------------------------------------------------------------------------
+// Modal -> Adicionar currículos automaticamente
+// ------------------------------------------------------------------------------------------------------------
+?>
+<div id="adicionar_curriculos_automaticamente" class="modal hide fade">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal">×</button>
+        <h3>Adicionar currículos automaticamente</h3>
+    </div>
+    <div class="modal-body">                        
+        <p>Deseja que o sistema busque pelos currículos ativos que se enquadrem no cargo informado para a vaga?</p>
+        <p><strong>Nota:</strong> se existirem currículos adicionados atualmente à lista abaixo, serão automaticamente removidos.</p>
+        <p>
+            <label for="qtd_curriculos_automaticos"><strong>Quantidade (máxima) de currículos a serem inseridos automaticamente:</strong></label>
+            <input id="qtd_curriculos_automaticos" name="qtd_curriculos_automaticos" class="span1" type="text" value="10" />
+        </p>
+    </div>
+    <div class="modal-footer">
+        <a id="confirmar_adicionar_curriculos_automaticamente" href="#" data-dismiss="modal" class="btn btn-primary">Confirmar</a>
+        <a href="#" data-dismiss="modal" class="btn">Cancelar</a>
+    </div>
+</div>
+
+
+<?php
+// ------------------------------------------------------------------------------------------------------------
+// Modal -> Editar currículo
+// ------------------------------------------------------------------------------------------------------------
+?>
+<div id="editar_curriculo" class="modal hide fade">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal">×</button>
+        <h3>Editar</h3>
+    </div>
+    <div class="modal-body">
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    $(function() {
+    
+        $('#Curriculos_Form_Lista').magicform({
+            onOkForwardTo : '<?php echo $this->backUrl; ?>'
+        });
+        
+        function customRange(input) {
+            return {
+                minDate: (input.id == 'data_fechamento' ? $('#data_abertura').datepicker('getDate') : null), 
+                maxDate: (input.id == 'data_abertura' ? $('#data_fechamento').datepicker('getDate') : null)
+            };
+        }
+
+        function showHideSecao() {
+            if($('#abertura_box').attr('checked')) {
+                $('#fieldset-abertura_group').show();
+            } else {
+                $('#fieldset-abertura_group').hide();
+            }
+        }
+
+        <?php if (!IS_MOBILE) { ?>
+        $('#data_abertura, #data_fechamento').setMask({autoTab: false}).datepicker({
+            beforeShow: customRange
+        });
+        <?php } ?>
+
+        $('#area_id').change(function() {
+            area_id = $(this).val();
+            comboCargo = $('#cargo_id');
+            url = '<?= WWWROOT ?>trabalhe-conosco/novo/lista-combo-cargos/area/' + area_id;
+            comboCargo.empty();
+            if (area_id) {
+                comboCargo.append('<option value="">Carregando...</option>');
+                $.getJSON(url, function(data) {
+                    comboCargo.empty();
+                    $.each(data, function(key, val) {
+                        comboCargo.append('<option value="' + val.id + '">' + val.nome + '</option>');
+                    });
+                });
+            } else {
+                comboCargo.append('<option value="">Todos</option>');
+            }
+        });
+        
+        $('#link-adicionar-curriculos').click(function() {
+            var frame = '<iframe id="f" style="border: none; height: 700px; width: 100%" src="curriculos/admin/frame?status=true&pontuacao=1"></iframe>';
+            $('#tab-adicionar-curriculos').html(frame);
+        });
+        
+        $('.link-remover-curriculo').live('click', function() {
+            var lc_id = $(this).attr('href');
+            removerCurriculo(lc_id);
+            return false;
+        });
+
+        $('#btn_adicionar_curriculo').click(function() {
+            alert('adicionar currículo');
+        });
+
+        $('#cargo_id').change(function() {
+            var cargo_id = $(this).val();
+            if (!cargo_id) {
+                return;
+            }
+            $('#adicionar_curriculos_automaticamente').modal();
+        });
+        
+        $('#confirmar_adicionar_curriculos_automaticamente').click(function() {
+            var cargo_id = $('#cargo_id').val();
+            if (!cargo_id) {
+                return;
+            }
+            removerTodosCurriculos();
+            $.ajax({
+                url : WWWROOT + 'curriculos/admin/ajax-curriculos-por-cargos',
+                data : {
+                    cargo_id : cargo_id,
+                    quantidade : $('#qtd_curriculos_automaticos').val()
+                },
+                type : 'POST',
+                dataType : 'JSON',
+                success : function(response) {
+                    $.each(response.rowset, function(index, curriculo) {
+                        adicionaCurriculoNaLista(curriculo);
+                    });
+                    $('#link-lista-curriculos').click();
+                }
+            });
+            
+        });
+        
+        $('.btn_editar_curriculo').live('click', function() {
+            $('#editar_curriculo .modal-body').empty();
+            $.get('<?= WWWROOT ?>curriculos/admin/popup-form/id/' + $(this).attr('href'), function(data) {
+                $('#editar_curriculo .modal-body').append(data);
+                $('#editar_curriculo').modal();
+            });
+            return false;
+        });
+        $('#abertura_box').change(showHideSecao);
+        showHideSecao();
+        
+        $('#Salvar').click(function() {
+            if (!$('#abertura_box').is(':checked')) {
+                $('#cargo_id').val('0');
+            }
+        });
+        
+    });
+    
+    var lista_pesquisa_curriculos = '';
+    
+    function removerTodosCurriculos() {
+        $('#lista-curriculos tbody tr').each(function() {
+            var lc_id = $(this).attr('id');
+            removerCurriculo(lc_id.substr(3));
+        });
+    }
+    
+    function removerCurriculo(lc_id) {
+        if (lc_id.substr(0, 4) != 'new_') {
+            $('#curriculos_para_remover').val($('#curriculos_para_remover').val() + ' ' + lc_id);
+        }
+        $('#lc_' + lc_id).remove();
+    }
+    
+    function adicionaCurriculosSelecionados() {
+        var lista = lista_pesquisa_curriculos.trim().split(' ');
+        var ids = '';
+        for (var k in lista) {
+            var id = lista[k].trim();
+            if ($('.c_' + id).attr('id') == undefined) {
+                ids += id + ';';
+            }
+        }
+        if (ids) {
+            $.ajax({
+                url : WWWROOT + 'curriculos/admin/ajax-curriculos-por-ids',
+                data : {
+                    ids : ids
+                },
+                type : 'POST',
+                dataType : 'JSON',
+                success : function(response) {
+                    $.each(response.rowset, function(index, curriculo) {
+                        adicionaCurriculoNaLista(curriculo);
+                    });
+                    $('#link-lista-curriculos').click();
+                }
+            });
+        } else {
+            $('#link-lista-curriculos').click();
+        }
+    }
+    
+    function adicionaCurriculoNaLista(curriculo) {
+        var html =
+            '<tr id="lc_' + curriculo.lc_id + '" class="c_' + curriculo.id + '">' +
+            '  <input name="curriculos[' + curriculo.lc_id + '][id]" value="' + curriculo.lc_id + '" type="hidden" />' +
+            '  <input name="curriculos[' + curriculo.lc_id + '][curriculo_id]" value="' + curriculo.id + '" type="hidden" />' +
+            '  <td>' + curriculo.pontuacao + '</td>' +
+            '  <td>' + curriculo.nome + '</td>' +
+            '  <td class="hidden-phone">' + curriculo.data_nascimento + '</td>' +
+            '  <td class="hidden-phone">' + curriculo.dh_atualizacao + '</td>' +
+            '  <td>' + 
+            '    <div class="btn-group" style="width: 80px">' +
+            '      <a class="btn btn-mini btn-primary btn_editar_curriculo" href="' + curriculo.id + '">Editar</a>' +
+            '      <button class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>' +
+            '      <ul class="dropdown-menu">' +
+            '        <li><a title="Remover" href="' + curriculo.lc_id + '" class="link-remover-curriculo">Remover</a></li>' +
+            '      </ul>' +
+            '    </div>' +
+            '  </td>' +
+            '</tr>';
+        $(html).appendTo('#lista-curriculos tbody');
+    }
+    
+</script>

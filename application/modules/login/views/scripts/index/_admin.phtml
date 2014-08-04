@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="iso-8859-1">
+        <base href="<?= WWWROOT ?>" />
+        <?= $this->headTitle() ?>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Magic Web Design">
+        <?= $this->headMeta() ?>
+        <?php
+        // -------------------------------------------------------------------------------------------------------------
+        // Ícone
+        // -------------------------------------------------------------------------------------------------------------
+        ?>
+        <link rel="shortcut icon" href="" />
+        <?php
+        // -------------------------------------------------------------------------------------------------------------
+        // CSS
+        // -------------------------------------------------------------------------------------------------------------
+        ?>
+        <link href="css/jqueryui/jquery-ui-1.8.14.custom.css" media="screen" rel="stylesheet" type="text/css" />
+        <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+        <style>
+            body { padding-top: 60px; }
+        </style>
+        <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+        <link href="css/admin.css" rel="stylesheet">
+        <?= $this->headStyle() ?>
+        <?php
+        // -------------------------------------------------------------------------------------------------------------
+        // Javascript
+        // -------------------------------------------------------------------------------------------------------------
+        ?>
+        <script type="text/javascript">
+            var WWWROOT = '<?= WWWROOT ?>';
+        </script>
+        <!-- IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+        <script src="js/html5.js"></script>
+        <![endif]-->
+        <script src="js/jquery-1.7.1.min.js"></script>
+        <script src="bootstrap/js/bootstrap.js"></script>
+        <script type="text/javascript" src="js/jquery-ui-1.8.14.custom.min.js"></script>
+<!--        <script type="text/javascript" src="js/jquery.ui.datepicker-pt-BR.js"></script>-->
+<!--        <script type="text/javascript" src="js/jquery.meio.mask.min.js"></script>-->
+        <script type="text/javascript" src="js/jquery.magicform.js"></script>
+        <?= $this->headLink() ?>
+        <?= $this->headScript() ?>
+        <?= $this->inlineScript() ?>
+    </head>
+
+    <body>
+        <?php
+        // ------------------------------------------------------------------------------------------------------------
+        // Monta a casca do menu somente com o nome do projeto
+        // ------------------------------------------------------------------------------------------------------------
+        ?>
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <span class="brand">AGF Engenharia</span>
+                </div>
+            </div>
+        </div>
+        <?php
+        // ------------------------------------------------------------------------------------------------------------
+        // Conteúdo
+        // ------------------------------------------------------------------------------------------------------------
+        ?>
+        <div class="container">
+            <?php
+            // --------------------------------------------------------------------------------------------------------
+            // Flash messages
+            // --------------------------------------------------------------------------------------------------------
+            echo $this->flashMessage();
+            //
+            ?>
+            <div class="clearfix hidden-phone hidden-tablet" style="padding-top: 100px"></div>
+            <div class="row">
+                <div class="span4 offset4">
+                    <h2>Login</h2>
+                    <hr />
+                    <form id="form_login" action="" method="post" class="">
+                        <label>Usuário</label>
+                        <input class="span3" type="text" name="login" id="login" value="" maxlength="100" />
+                        <label>Senha</label>
+                        <input class="span3" type="password" name="senha" id="senha" value="" maxlength="100" />
+
+                        <div class="clearfix" style="padding-top: 10px"></div>
+
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                    <hr />
+                    <a id="oops" class="muted" href="#">Esqueci minha senha</a>
+                </div>
+            </div>            
+        </div>
+        <?php
+        // ------------------------------------------------------------------------------------------------------------
+        // Modal -> "Esqueci minha senha"
+        // ------------------------------------------------------------------------------------------------------------
+        ?>
+        <div id="esqueci_minha_senha" class="modal hide fade">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">×</button>
+                <h3>Esqueci minha senha</h3>
+            </div>
+            <form id="form_esqueci_minha_senha" action="<?= WWWROOT ?>login/index/gerar-codigo" method="post">
+                <div class="modal-body">                        
+                    <label for="email">Por favor, informe seu endereço de e-mail</label>
+                    <input id="email" name="email" class="span5" type="text" value="" maxlength="100" />
+                    <p>Após clicar em "Confirmar", você receberá um e-mail com instruções e um link para redefinir sua senha.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                    <a href="#" data-dismiss="modal" class="btn">Cancelar</a>
+                </div>
+            </form>
+        </div>
+        <script type="text/javascript">
+            $('#form_login').magicform();
+            $('#oops').click(function() {
+                $('#esqueci_minha_senha').modal();
+                $('#email').focus();
+                return false;
+            });
+        </script>
+    </body>
+</html>

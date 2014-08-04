@@ -1,0 +1,48 @@
+[Wed Feb  6 11:24:21.684 2013] [19609] accepting connections
+[Wed Feb  6 11:25:10.867 2013] [19609] caught SIGHUP (seamless=1, in queue=1)
+[Wed Feb  6 11:25:10.869 2013] [19609] rotating index 'sistema_padrao': success
+[Wed Feb  6 11:25:10.869 2013] [19609] rotating finished
+[Wed Feb  6 13:27:36.204 2013] [19609] caught SIGHUP (seamless=1, in queue=1)
+[Wed Feb  6 13:27:36.206 2013] [19609] rotating index 'sistema_padrao': success
+[Wed Feb  6 13:27:36.206 2013] [19609] rotating finished
+[Wed Feb  6 13:27:47.831 2013] [19609] caught SIGTERM, shutting down
+[Wed Feb  6 13:27:47.831 2013] [19609] shutdown complete
+[Wed Feb  6 13:27:51.244 2013] [27682] accepting connections
+[Wed Feb  6 13:28:38.425 2013] [27682] caught SIGHUP (seamless=1, in queue=1)
+[Wed Feb  6 13:28:38.427 2013] [27682] rotating index 'sistema_padrao': success
+[Wed Feb  6 13:28:38.427 2013] [27682] rotating finished
+[Wed Feb  6 13:28:42.263 2013] [27682] caught SIGTERM, shutting down
+[Wed Feb  6 13:28:42.263 2013] [27682] shutdown complete
+[Wed Feb  6 13:28:45.496 2013] [27749] accepting connections
+[Wed Feb  6 13:30:57.769 2013] [27749] caught SIGHUP (seamless=1, in queue=1)
+[Wed Feb  6 13:30:57.771 2013] [27749] rotating index 'sistema_padrao': success
+[Wed Feb  6 13:30:57.771 2013] [27749] rotating finished
+[Wed Feb  6 13:31:01.399 2013] [27749] caught SIGTERM, shutting down
+[Wed Feb  6 13:31:01.399 2013] [27749] shutdown complete
+[Wed Feb  6 13:31:04.376 2013] [27907] accepting connections
+[Wed Feb  6 13:31:26.856 2013] [27907] caught SIGHUP (seamless=1, in queue=1)
+[Wed Feb  6 13:31:26.858 2013] [27907] rotating index 'sistema_padrao': success
+[Wed Feb  6 13:31:26.858 2013] [27907] rotating finished
+[Wed Feb  6 13:31:35.267 2013] [27907] caught SIGTERM, shutting down
+[Wed Feb  6 13:31:35.267 2013] [27907] shutdown complete
+[Wed Feb  6 13:31:37.236 2013] [27950] accepting connections
+[Wed Feb  6 13:38:08.209 2013] [27950] caught SIGHUP (seamless=1, in queue=1)
+[Wed Feb  6 13:38:08.210 2013] [27950] rotating index 'sistema_padrao': success
+[Wed Feb  6 13:38:08.210 2013] [27950] rotating finished
+[Wed Feb  6 13:38:10.191 2013] [27950] caught SIGTERM, shutting down
+[Wed Feb  6 13:38:10.191 2013] [27950] shutdown complete
+[Wed Feb  6 13:38:12.064 2013] [28390] accepting connections
+[Wed Feb  6 13:39:06.844 2013] [28390] caught SIGHUP (seamless=1, in queue=1)
+[Wed Feb  6 13:39:06.846 2013] [28390] rotating index 'sistema_padrao': success
+[Wed Feb  6 13:39:06.846 2013] [28390] rotating finished
+[Wed Feb  6 13:39:06.849 2013] [28390] caught SIGTERM, shutting down
+[Wed Feb  6 13:39:06.849 2013] [28390] shutdown complete
+[Wed Feb  6 13:39:06.853 2013] [28469] accepting connections
+[Wed Feb  6 13:39:25.436 2013] [28469] caught SIGHUP (seamless=1, in queue=1)
+[Wed Feb  6 13:39:25.438 2013] [28469] rotating index 'sistema_padrao': success
+[Wed Feb  6 13:39:25.438 2013] [28469] rotating finished
+[Wed Feb  6 13:39:25.441 2013] [28469] caught SIGTERM, shutting down
+[Wed Feb  6 13:39:25.441 2013] [28469] shutdown complete
+[Wed Feb  6 13:39:25.445 2013] [28496] accepting connections
+[Wed Oct  9 10:23:27.831 2013] [28496] caught SIGTERM, shutting down
+[Wed Oct  9 10:23:28.043 2013] [28496] shutdown complete

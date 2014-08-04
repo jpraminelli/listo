@@ -1,0 +1,51 @@
+<div class="control-group">
+    <label class="control-label required">Imagens</label>
+    <div class="controls" id="imagens-container">
+        <?php if (count($this->imagens) > 0) : ?>
+            <?php foreach ($this->imagens as $imagem) : ?>
+                <div id="imagem-<?php echo $imagem->id; ?>" class="imagem <?php echo (int) $imagem->principal > 0 ? 'principal' : ''; ?>">
+                    <div class="btn-principal btn-action btn has_tooltip" data-title="Imagem principal" data-placement="left">
+                        <i class="icon-ok"></i>
+                    </div>
+                    <div class="btn-excluir btn-action btn btn-danger has_tooltip" data-title="Será excluída" data-placement="left">
+                        <i class="icon-remove"></i>
+                    </div>
+                    <div class="btn-restaurar btn-action btn btn-success has_tooltip" data-id="<?php echo $imagem->id; ?>" data-title="Restaurar" data-placement="right">
+                        <i class="icon-refresh"></i>
+                    </div>
+                    <div class="actions">
+                        <div class="btn-group">
+                            <a class="btn-menu btn btn-primary dropdown-toggle has_tooltip" data-toggle="dropdown" data-title="Alterar imagem" data-placement="right">
+                                <i class="icon-white icon-cog"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a data-target="#modal-ver" data-remote="" data-toggle="modal" class="link-ver" rel="Tem certeza que deseja colocar essa imagem na capa da galeria?" title="Ver" href="image.php?src=<?php echo $imagem->path(); ?>&amp;w=530&amp;h=400&amp;zc=3">
+                                        <i class="icon-zoom-in"></i>
+                                        Ver
+                                    </a>
+                                </li>
+                                <li>
+                                    <a rel="<?php echo $imagem->id; ?>" data-target="#modal-tornar_principal" data-remote="" data-toggle="modal" class="link-tornar_principal" rel="Tem certeza que deseja colocar essa imagem na capa da galeria?" title="Excluir" href="javascript:void(0);">
+                                        <i class="icon-check"></i>
+                                        Tornar principal
+                                    </a>
+                                </li>
+                                <li>
+                                    <a rel="<?php echo $imagem->id; ?>" data-target="#modal-excluir" data-remote="" data-toggle="modal" class="link-excluir" rel="Tem certeza que deseja excluir essa notícia?" title="Excluir" href="javascript:void(0);">
+                                        <i class="icon-trash"></i>
+                                        Excluir
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <img src="image.php?src=<?php echo $imagem->path(); ?>&amp;w=144&amp;h=144&amp;zc=2" alt="" width="146" height="146" class="img-polaroid img-rounded" />
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+    <div class="controls" style="margin-top:30px;">
+        <p class="help-block" style="color: #999;clear:both;">Para alterar as configurações de uma imagem, clique no ícone sobre a imagem.</p>
+    </div>
+</div>

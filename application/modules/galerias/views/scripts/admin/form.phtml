@@ -1,0 +1,171 @@
+<h1><?php echo $this->pageTitle; ?></h1>
+<?php echo $this->form; ?>
+
+<div id="modal-ver" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Imagem</h3>
+    </div>
+    <div class="modal-body">
+        <img src="" alt="" title="" style="width:530px;height:400px;" />
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-primary" data-dismiss="modal">Fechar</a>
+    </div>
+</div>
+
+<div id="modal-tornar_principal" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Confirmação</h3>
+    </div>
+    <div class="modal-body">
+        <p>Tem certeza que deseja colocar essa imagem como capa da galeria?</p>
+    </div>
+    <div class="modal-footer">
+        <a href="javascript:void(0);" id="btn-tornar_principal-confirmacao" class="btn btn-primary">Sim</a>
+        <a href="javascript:void(0);" class="btn" data-dismiss="modal">Não</a>
+    </div>
+</div>
+
+<div id="modal-excluir" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Confirmação</h3>
+    </div>
+    <div class="modal-body">
+        <p>Tem certeza que deseja excluir essa imagem?</p>
+    </div>
+    <div class="modal-footer">
+        <a href="javascript:void(0);" id="btn-excluir-confirmacao" class="btn btn-primary">Sim</a>
+        <a href="javascript:void(0);" class="btn" data-dismiss="modal" accesskey="escape">Não</a>
+    </div>
+</div>
+
+<div id="modal-total_imagens" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Erro</h3>
+    </div>
+    <div class="modal-body">
+        <p></p>
+    </div>
+    <div class="modal-footer">
+        <a href="javascript:void(0);" class="btn" data-dismiss="modal">Fechar</a>
+    </div>
+</div>
+
+<div class="imagens_subform_template">
+    <?php echo new Galerias_Form_Imagem(array('id' => '__IMAGEM_ID__')); ?>
+</div>
+
+<script type="text/javascript" src="js/jquery.template.js"></script>
+<script type="text/javascript">
+    function tornar_principal(id) {
+        $('#imagens-container .principal').removeClass('principal');
+        $('#imagem-' + id).addClass('principal');
+
+        $('#imagem_principal').val(id);
+    }
+
+    function excluir(id) {
+        var input = $('<input />').attr({
+            'type' : 'hidden',
+            'name' : 'remover_imagens[]',
+            'id' : 'remover_imagens-' + id,
+            'value' : id
+        });
+        input.insertBefore('.form-actions');
+
+        if($('#imagem_principal').val() == id) {
+            $('#imagem_principal').val();
+        }
+
+        $('#imagem-' + id).removeClass('principal');
+        $('#imagem-' + id).addClass('excluir');
+    }
+
+    function restaurar(id) {
+        $('#imagem-' +id).removeClass('excluir');
+        $('#remover_imagens-' + id).remove();
+    }
+
+    $(function() {
+        var subform = $('.imagens_subform_template');
+
+        $.template.set('imagens_subform', subform.html());
+        subform.remove();
+
+        $('#data').setMask({
+            mask : '39/19/9999',
+            autoTab : false
+        });
+        $('#data').datepicker();
+
+        $('form').magicform({
+            onOkForwardTo : '<?php echo $this->backUrl; ?>',
+            onFieldError : function(key, error) {
+                if(key == 'total_imagens') {
+                    $('#modal-total_imagens .modal-body p').text(error);
+                    $('#modal-total_imagens').modal('show');
+                    return false;
+                }
+                if(key == 'ativo') {
+                    $('#ativo-container').append('<span class="help-inline" style="float:right;">' + error + '</span>');
+                    return false;
+                }
+                return true;
+            }
+        });
+
+        $('#imagem_atual').click(function() {
+            $('#modal_imagem .modal-body img').attr('src', this.href);
+        });
+
+        $('#adicionar_imagens').click(function() {
+            var hash = 'new_' + $.template.getHash();
+            var template = $.template.get('imagens_subform', { IMAGEM_ID : hash });
+
+            template.insertBefore('#adicionar_imagens-container');
+        });
+
+        $('.btn-remover_imagem').live('click', function() {
+            var target = '#fieldset-dg_imagem_' + this.rel;
+
+            $(target).remove();
+        });
+
+        $('#btn-tornar_principal-confirmacao').click(function() {
+            tornar_principal(this.rel);
+
+            $('#modal-tornar_principal').modal('hide');
+        });
+
+        $('#btn-excluir-confirmacao').click(function() {
+            excluir(this.rel);
+
+            $('#modal-excluir').modal('hide');
+        });
+
+        $('.btn-restaurar').click(function() {
+            restaurar($(this).attr('data-id'));
+            return false;
+        });
+
+        // ini : ações das imagens
+        $('.link-ver').click(function(){
+            $('#modal-ver .modal-body img').attr('src', this.href);
+        });
+
+        $('.link-tornar_principal').click(function(){
+            $('#btn-tornar_principal-confirmacao').attr('rel', this.rel);
+        });
+
+        $('.link-excluir').click(function(){
+            $('#btn-excluir-confirmacao').attr('rel', this.rel);
+        });
+        // fim : ações das imagens
+
+        $('.has_tooltip').tooltip();
+    });
+</script>
