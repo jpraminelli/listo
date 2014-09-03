@@ -1,0 +1,27 @@
+#!/bin/bash
+
+SCRIPT_DIR=`dirname $0`
+cd $SCRIPT_DIR/../
+BASEDIR=$PWD
+
+APP=projeto_padrao
+PACKNAME=$BASEDIR/$APP.tar.gz
+TMPDIR=/tmp/$APP
+
+if [ -f $PACKNAME ]; then
+    rm $PACKNAME
+fi
+rm $TMPDIR -fr
+mkdir $TMPDIR
+
+cp config/ house/ module/ public/ -r $TMPDIR
+
+cd $TMPDIR
+
+rm config/env.php
+rm config/autoload/local.php
+rm public/.htaccess
+rm public/files -fr
+# rm -fr $(find -name ".git*")
+
+tar -zcf $PACKNAME *

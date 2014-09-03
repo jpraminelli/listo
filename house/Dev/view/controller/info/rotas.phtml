@@ -1,0 +1,27 @@
+<? $this->headTitle('Rotas') ?>
+<table id="rotas" class="table">
+    <thead>
+        <tr>
+            <th>Rota</th>
+            <th>Key</th>
+            <th>Controller</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <? foreach ($rotas as $route => $data) { ?>
+            <tr>
+                <td><?= $route ?></td>
+                <td><?= $data['key'] ?></td>
+                <td><?= $data['controller'] ?></td>
+                <td><?= $data['action'] ?>
+                </td>
+            </tr>
+        <? } ?>
+    </tbody>
+</table>
+<script type="text/javascript">
+    $(function() {
+        $("#rotas").tablesorter();
+    });
+</script>

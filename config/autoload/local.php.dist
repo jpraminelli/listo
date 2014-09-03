@@ -1,0 +1,46 @@
+<?php
+
+// ====================================================================================================================
+// É inserido apenas se tiver um link simbólico (env.php) apontando para este arquivo.
+// ====================================================================================================================
+
+define('WWWROOT', '//' . HOST . '/projeto_padrao_zf2/public');
+
+define('USE_CDN', false);
+define('CLOUD_ENABLED', false);
+
+return array(
+    // ================================================================================================================
+    // Parâmetros de configuração da conexão com o banco de dados.
+    // ================================================================================================================
+    'doctrine' => array(
+        'connection' => array(
+            'orm_default' => array(
+                'params' => array(
+                    'host'     => 'localhost',
+                    'port'     => '3306',
+                    'user'     => 'root',
+                    'password' => 'root',
+                    'dbname'   => 'projeto_padrao',
+                ),
+            ),
+        ),
+    ),
+    'mail' => array(
+        'from' => array(
+            'nome' => 'Projeto padrão Itaú',
+            'email' => 'elton@magicwebdesign.com.br',
+        ),
+        'smtp_options' => array(
+            'name' => 'secure.emailsrvr.com',
+            'host' => 'secure.emailsrvr.com',
+            'port' => 465,
+            'connection_class' => 'plain',
+            'connection_config' => array(
+                'username' => 'elton@magicwebdesign.com.br',
+                'password' => 'el#465*',
+                'ssl' => 'ssl',
+            ),
+        )
+    )
+);

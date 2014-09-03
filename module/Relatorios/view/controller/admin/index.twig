@@ -1,0 +1,149 @@
+{# ------------------------------------------------------------------------------------------------------------------------------------- #}
+{# Extende o layout #}
+{# ------------------------------------------------------------------------------------------------------------------------------------- #}
+{% extends 'layout/admin' %}
+
+{# ------------------------------------------------------------------------------------------------------------------------------------- #}
+{# TITLE #}
+{# ------------------------------------------------------------------------------------------------------------------------------------- #}
+{% block title %}{{ parent() }} - Relatórios{% endblock title %}
+
+{# ------------------------------------------------------------------------------------------------------------------------------------- #}
+{# CONTENT #}
+{# ------------------------------------------------------------------------------------------------------------------------------------- #}
+{% block content %}
+    <div class="row">
+
+        <div class="col-md-12">
+            
+            <h2>Relatórios - Geral</h2>
+            
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Filtros</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="row">
+                        <form method="get">
+                            
+                            
+                            <div class="col-md-4">
+                                <label for="por" class="control-label">Por</label>
+                                <input id="por" name="por" value="{{ form.get('por').getValue() }}" class="form-control">
+                            </div>
+                            
+                            <div class="col-md-2">
+                                <label for="visivel" class="control-label">Situação</label>
+
+                                <select id="visivel" name="visivel" class="form-control">
+                                    <option value="all" {% if form.get('visivel').getValue() == 'all' %}selected{% endif %}>Todos</option>
+                                    <option value="true" {% if form.get('visivel').getValue() == '' or form.get('visivel').getValue() == 'true' %}selected{% endif %}>Visiveis</option>
+                                    <option value="false" {% if form.get('visivel').getValue() == 'false' %}selected{% endif %}>Não visiveis</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>&nbsp;</label><br>
+                                <button id="procurar" type="submit" class="btn btn-info">Filtrar</button>
+                                {% if emPesquisa %}
+                                    <a href="{{ url('admin|relatorios') }}" class="btn btn-default">Limpar</a>
+                                {% endif %}
+
+                                <a href="{{ url('admin|relatorios') }}?por={{ form.get('por').getValue() }}&visivel={{ form.get('visivel').getValue() }}" target="_blank" class="btn btn-default"  style="float:right; margin-right: 15px">Exportar</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+                <div class="panel">
+
+                    <div style="width:100%; overflow:auto; height: auto;">
+                        
+                        {% if emPesquisa %}
+                            <table id="rotas" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="col-md-9">Título</th>
+                                        <th class="col-md-2" style="text-align: center">Data</th>
+                                        <th class="col-md-1" style="text-align: center">Visivel</th>
+                                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                   {% for item in relatorio %}                                        
+
+                                        <tr>
+                                            <td><p>{{ item.titulo }}</p></td>
+                                            <td style="text-align: center"><p>{{ item.criacao }}</p></td>
+                                            <td style="text-align: center"><p>{% if item.visivel %}Sim{% else %}Não{% endif %}</p></td>
+                                        </tr>
+                                        
+                                    {% else %}
+
+                                        <tr>
+                                            <td colspan="6" align="center"><br>
+                                                <h4>Nenhum registro encontrado!</h4><br>
+                                            </td>
+                                        </tr>
+
+                                    {% endfor %} 
+                                </tbody>
+                            </table><br>
+                        {% else %}
+                            <br><br><h3 style="text-align:center">Selecione um filtro para mostrar os resultados</h3><br><br><br>
+                        {% endif %}
+                    </div>
+
+                    <br>
+
+                
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="destativar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Atenção</h4>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <a href="" class="btn btn-primary">Continuar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+{# ------------------------------------------------------------------------------------------------------------------------------------- #}
+{# JAVASCRIPT (inline) #}
+{# ------------------------------------------------------------------------------------------------------------------------------------- #}
+{% block inlineScript %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(function() {
+
+        {% if not protegido and not inserindo %}
+                $('.desativar').click(function() {
+
+                    situacao = $(this).text();
+                    situacao = situacao.toLowerCase();
+                    $('.modal-body').html("Deseja " + situacao + " este registro?");
+                    $('.btn-primary').attr("href", $(this).attr('href'));
+                    $('#destativar').modal('toggle');
+                    return false;
+
+                });
+        {% endif %}
+                });
+    </script>
+{% endblock inlineScript %}

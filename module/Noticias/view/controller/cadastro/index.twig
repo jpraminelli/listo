@@ -1,0 +1,118 @@
+{# ------------------------------------------------------------------------------------------------------------------------------------- #}
+{# Extende o layout #}
+{# ------------------------------------------------------------------------------------------------------------------------------------- #}
+{% extends 'layout/layout' %}
+
+{# ------------------------------------------------------------------------------------------------------------------------------------- #}
+{# TITLE #}
+{# ------------------------------------------------------------------------------------------------------------------------------------- #}
+{% block title %}{{ parent() }} - Notícias{% endblock title %}
+
+{# ------------------------------------------------------------------------------------------------------------------------------------- #}
+{# CONTENT #}
+{# ------------------------------------------------------------------------------------------------------------------------------------- #}
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <form action="{{ url('cadastro') }}" method="post" role="form">
+                
+                {{ formHidden(form.get('validator')) }}
+                {{ formHidden(form.get('id')) }}
+                
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ title }}</h3>
+                    </div>
+                    <div class="panel-body">
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="titulo" class="control-label">Título</label>
+                                    {{ formText(form.get('titulo')) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="chamada" class="control-label">Chamada</label>
+                                    {{ formTextarea(form.get('chamada')) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="descricao" class="control-label">Descrição</label>
+                                    {{ formTextarea(form.get('descricao')) }}
+                                </div>
+                            </div>
+                        </div>
+                                
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label>
+                                            {{ formCheckbox(form.get('visivel')) }}
+                                            Este registro está visível.
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><br><br>
+                                            
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        {{ formCaptcha(form.get('security')) }} <br>
+                                        {{ formElementErrors(form.get('security')) }} <br>
+                                        {{ formHidden(form.get('captcha')) }}
+                                        <a href="#" id="refreshcaptcha">Caso não consiga visualizar a imagem clique aqui</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><br><br>
+                        
+                    </div>
+                    <div class="panel-footer">
+                        <button id="salvar" type="submit" class="btn btn-primary">Salvar</button>
+                        <a href="{{ backTo() }}" class="btn btn-default">Cancelar</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
+
+{# ------------------------------------------------------------------------------------------------------------------------------------- #}
+{# JAVASCRIPT (inline) #}
+{# ------------------------------------------------------------------------------------------------------------------------------------- #}
+{% block inlineScript %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(function() {
+   
+            $('#refreshcaptcha').click(function() {
+                $.ajax({
+                    url: '{{ basePath('/gera-imagem') }}',
+                    dataType:'json',
+                    success: function(data) {
+                        $('#security-image').attr('src',data.src);
+                        $('#security-hidden').attr('value',data.id);
+                    }
+                });
+            });
+            
+            $('form').remoteform({
+                onOkForwardTo: '{{ backTo() }}',
+                onGeneralError: function(){
+                    $('#refreshcaptcha').trigger('click');
+                }
+            });
+        });
+    </script>
+{% endblock inlineScript %}

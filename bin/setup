@@ -1,0 +1,47 @@
+#!/bin/bash
+
+SCRIPT_DIR=`dirname $0`
+cd $SCRIPT_DIR/../
+BASEDIR=$PWD
+
+# Cria o diretório 'data/cache'
+if [ ! -d 'data/cache' ]; then
+    mkdir -p data/cache
+fi
+
+# Cria o diretório 'logs'
+if [ ! -d 'logs' ]; then
+    mkdir logs
+fi
+
+# Cria o diretório 'public/files'
+if [ ! -d 'public/files' ]; then
+    mkdir -p public/files
+fi
+
+# Cria o diretório captcha 'public/files/captcha'
+if [ ! -d 'public/files/captcha' ]; then
+    mkdir -p public/files/captcha
+fi
+
+# Faz com que os arquivos criados pelo apache possam ser manipulados pelo usuário local
+APACHEUSER=`ps aux | grep -E '[a]pache|[h]ttpd' | grep -v root | head -1 | cut -d\  -f1`
+sudo setfacl -R -m u:$APACHEUSER:rwX -m u:`whoami`:rwX data logs public/files  public/files/captcha
+sudo setfacl -dR -m u:$APACHEUSER:rwX -m u:`whoami`:rwX data logs public/files public/files/captcha
+
+# Cria o arquivo 'config/env.php', caso não exista
+if [ ! -f 'config/env.php' ]; then
+    cp config/env.php.dist config/env.php
+fi
+
+# Cria o arquivo 'config/autoload/local.php', caso não exista
+if [ ! -f 'config/autoload/local.php' ]; then
+    cp config/autoload/local.php.dist config/autoload/local.php
+fi
+
+# Copia a configuração padrão para a barra de ferramentas do zend developer tools, caso não exista.
+if [ ! -f 'config/autoload/zenddevelopertools.local.php' ]; then
+    cp \
+        vendor/zendframework/zend-developer-tools/config/zenddevelopertools.local.php.dist \
+        config/autoload/zenddevelopertools.local.php
+fi

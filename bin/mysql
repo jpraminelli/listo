@@ -1,0 +1,3 @@
+#!/bin/bash
+mysql --default-character-set=utf8 -uroot -proot projeto_padrao
+

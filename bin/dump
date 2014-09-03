@@ -1,0 +1,5 @@
+#!/bin/bash
+
+SCRIPT_DIR=`dirname $0`
+
+mysqldump --default-character-set=utf8 -uroot -proot projeto_padrao > $SCRIPT_DIR/../data/dump.sql

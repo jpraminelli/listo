@@ -1,0 +1,46 @@
+<?
+if (count($this->pagesInRange) < 2) {
+    return;
+}
+$queryString = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
+if ($queryString) {
+    $queryString = '?' . $queryString;
+}
+$firstPageInRange = null;
+$lastPageInRange = null;
+foreach ($this->pagesInRange as $page) {
+    if (!$firstPageInRange) {
+        $firstPageInRange = $page;
+    }
+    $lastPageInRange = $page;
+}
+?>
+<ul class="pagination">
+    <?php if ($this->first != $this->current) { ?>
+        <li><a title="Primeira página" href="<?= $this->url($this->route, array('pagina' => $this->first)) . $queryString ?>">&lt;&lt;</a></li>
+        <li><a title="Página anterior" href="<?= $this->url($this->route, array('pagina' => $this->previous)) . $queryString ?>">&lt;</a></li>
+    <?php } else { ?>
+        <li class="disabled"><a title="Primeira página" href="<?= $this->url($this->route, array('pagina' => $this->first)) . $queryString ?>">&lt;&lt;</a></li>
+        <li class="disabled"><a title="Página anterior" href="<?= $this->url($this->route, array('pagina' => $this->previous)) . $queryString ?>">&lt;</a></li>
+    <?php } ?>
+    <?php if ($firstPageInRange > 1) { ?>
+        <li class="disabled"><a href="">...</a></li>
+    <?php } ?>
+    <?php foreach ($this->pagesInRange as $page) { ?>
+        <?php if ($page == $this->current) { ?>
+            <li class="active"><a href="<?= $this->url($this->route, array('pagina' => $page)) . $queryString ?>"><?= $page; ?></a></li>
+        <?php } else { ?>
+            <li><a href="<?= $this->url($this->route, array('pagina' => $page)) . $queryString ?>"><?= $page; ?></a></li>
+        <?php } ?>
+    <?php } ?>
+    <?php if ($lastPageInRange < $this->last) { ?>
+        <li class="disabled"><a href="">...</a></li>
+    <?php } ?>
+    <?php if ($this->last != $this->current) { ?>
+        <li><a title="Próxima página" href="<?= $this->url($this->route, array('pagina' => $this->next)) . $queryString ?>">&gt;</a></li>
+        <li><a title="Última página" href="<?= $this->url($this->route, array('pagina' => $this->last)) . $queryString ?>">&gt;&gt;</a></li>
+    <?php } else { ?>
+        <li class="disabled"><a title="Próxima página" href="<?= $this->url($this->route, array('pagina' => $this->last)) . $queryString ?>">&gt;</a></li>
+        <li class="disabled"><a title="Última página" href="<?= $this->url($this->route, array('pagina' => $this->last)) . $queryString ?>">&gt;&gt;</a></li>
+    <?php } ?>
+</ul>

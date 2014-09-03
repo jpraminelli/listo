@@ -1,0 +1,99 @@
+html,
+body {
+    height: 100%;
+	background:#fcfcfc;
+}
+
+#wrap {
+    height: auto;
+    margin: 0 auto -60px;
+    min-height: 100%;
+    padding: 0 0 60px;
+}
+
+#footer {
+    background-color: #f5f5f5;
+    height: 60px;
+}
+
+#wrap > .container {
+    padding: 70px 15px 0;
+}
+
+.container .text-muted {
+    margin: 20px 0;
+}
+
+#footer > .container {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+code {
+    font-size: 80%;
+}
+
+.panel .panel-body .table {
+    margin: 0;
+}
+
+.panel-footer .pagination {
+    margin: 0;
+}
+
+.panel-heading .checkbox {
+    margin: 0;
+}
+
+.panel-heading h5 {
+    margin: 0;
+}
+
+form .panel-body {
+    padding-bottom: 0;
+}
+
+.configEstoque .form-group { float: left; margin: 0 10px 0 0; width: 85px }
+
+.aviso { border: solid 1px #CCC; padding: 10px; margin: 20px 0px}
+.aviso p { margin: 10px }
+.aviso p.alerta b { color: #D00 }
+
+/* */
+
+@font-face { font-family: 'Ubuntu'; src: url('fontes/ubuntu/regular/ubuntu.eot'); src: url('fontes/ubuntu/regular/ubuntu.eot?#iefix') format('embedded-opentype'),  url('fontes/ubuntu/regular/ubuntu.woff') format('woff'),  url('fontes/ubuntu/regular/ubuntu.ttf') format('truetype'),  url('fontes/ubuntu/regular/ubuntu.svg#ubuntu') format('svg'); font-weight: normal; font-style: normal; }
+
+@font-face { font-family: 'Ubuntu-bold'; src: url('fontes/ubuntu/bold/ubuntu.eot'); src: url('fontes/ubuntu/bold/ubuntu.eot?#iefix') format('embedded-opentype'),  url('fontes/ubuntu/bold/ubuntu.woff') format('woff'),  url('fontes/ubuntu/bold/ubuntu.ttf') format('truetype'),  url('fontes/ubuntu/bold/ubuntu.svg#ubuntu') format('svg'); font-weight: normal; font-style: normal; }
+
+.pagina-login  {background:#fcfcfc;}
+.pagina-login .col-md-offset-4 {margin:120px auto 0 !important; float:none; width:820px; height:448px; }
+.navbar { background:#555; min-height:41px !important; }
+.navbar .container { font-family: 'Ubuntu', Arial, Helvetica; font-size:14pt; letter-spacing:0.5pt; text-shadow: 1px 1px 1px rgba(0,0,0,0.004);  color:#FFF; padding-top:9px; padding-left:0 !important;}
+.pagina-login .col-md-12, .pagina-login .row { padding:0; height: 66px;}
+.pagina-login .panel, .pagina-login .panel-heading, .pagina-login .pagina-body, .pagina-login .panel-footer {background:none !important; border:0; -box-sizing: content-box !important; -moz-box-sizing: content-box !important; -webkit-box-sizing: content-box !important;}
+.pagina-login .panel-heading { height:172px; text-indent:-9999px;}
+.pagina-login .pagina-body { width:360px; margin:0 auto; }
+.pagina-login .pagina-body .form-group { float:left; width:360px; }
+.pagina-login .pagina-body .form-group input{border:1px solid #cccccc; box-shadow:none; color:#666; box-shadow:none; padding:11px 18px !important; width: 324px; height: auto !important; box-sizing: content-box; -moz-box-sizing: content-box; -webkit-box-sizing: content-box;}
+.pagina-login .pagina-body .form-group .help-block { position:absolute; top:187px; z-index:9999; text-align:right; width:338px; right:234px;}
+.pagina-login .pagina-body .form-group label{color:#666;font-family: 'Ubuntu', Arial, Helvetica; font-size:10pt; letter-spacing:0pt; text-shadow: 1px 1px 1px rgba(0,0,0,0.004); font-weight:normal; text-transform:uppercase; margin-left:10px; margin-bottom:0;}
+.pagina-login .panel-default { width:792px; border:0; box-shadow:none; border-radius:0; float:left; }
+.pagina-login .pagina-body .form-group button { float:right; background: #555; width:180px; height:37px; border:0; margin-top:5px}
+.pagina-login .pagina-body .form-group button:hover{ background: #777 }
+.pagina-login .panel-footer{ padding:0;}
+.pagina-login .panel-footer button{ float:right; background:url(../img/button-login.jpg) no-repeat center top; width:180px; height:37px; border:0; text-indent:-9999px; margin-top:5px;}
+.pagina-login .panel-footer button:hover{ background:url(../img/button-login.jpg) no-repeat center bottom;}
+
+
+/* All pages */
+.navbar .container .navbar-nav li a{padding:0 25px 0 0; color:#eee; font-size:10pt; letter-spacing:0pt; text-shadow: 1px 1px 1px rgba(0,0,0,0.004); text-transform:uppercase;}
+.navbar .container .navbar-nav .open .dropdown-toggle{background:#555; color:#eee; }
+.navbar .container .navbar-nav .open .dropdown-menu{background:#555; color:#eee;}
+.navbar .container .navbar-nav .open .dropdown-menu li a { padding-left:9px; padding-top:2px; padding-bottom:2px;}
+.navbar .container .navbar-nav .open .dropdown-menu li a:hover {color:#555; }
+.navbar .container .navbar-nav {}
+.navbar-nav>li>.dropdown-menu {margin-top: 10px}
+.promocao{ float:left; padding-right:25px;}
+.btn-info, .btn-primary { background:#555; border:1px solid #5E431C;}
+.btn-info:hover, .btn-primary:hover {background:#777; border:1px solid #555; }
+#footer { display:none; }
