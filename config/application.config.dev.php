@@ -9,7 +9,7 @@ return array (
     // Módulos
     // ================================================================================================================
     'modules' => array(
-        'ZendDeveloperTools',
+       // 'ZendDeveloperTools',
         'Dev',
     ),
 );

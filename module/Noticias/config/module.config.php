@@ -21,6 +21,7 @@ return array(
             'noticias.controller.admin' => 'Noticias\Controller\AdminController',
             'noticias.controller.noticias' => 'Noticias\Controller\NoticiasController',
             'noticias.controller.cadastro' => 'Noticias\Controller\CadastroController',
+            'noticias.controller.index' => 'Noticias\Controller\IndexController',
         ),
     ),
     // ================================================================================================================
@@ -81,7 +82,7 @@ return array(
                         'pagina' => '[0-9]+',
                     ),
                     'defaults' => array(
-                        'controller' => 'noticias.controller.noticias',
+                        'controller' => 'noticias.controller.index',
                         'action' => 'index',
                     ),
                 ),
@@ -192,7 +193,7 @@ return array(
             'noticias/admin/index' => __DIR__ . '/../view/controller/admin/index.twig',
             'noticias/admin/form' => __DIR__ . '/../view/controller/admin/form.twig',
             
-            'noticias/noticias/index' => __DIR__ . '/../view/controller/noticias/index.twig',
+            'noticias/index/index' => __DIR__ . '/../view/noticias/index/index.twig',
             'noticias/cadastro/index' => __DIR__ . '/../view/controller/cadastro/index.twig',
         ),
     ),
